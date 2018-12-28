@@ -14,18 +14,20 @@
 #include <dirent.h>
 #include <signal.h>
 
-#define CYAN "\e[0;36m"  
-#define WHITE "\e[1;37m" 
-#define LIGHT "\033[5m"  
-#define MAX_LINE 80      
-#define MAX_NAME_LEN 100 
-#define MAX_PATH_LEN 1000
+#define CYAN "\e[0;36m"   // 定义青色
+#define WHITE "\e[1;37m"  // 定义白色
+#define LIGHT "\033[5m"   //闪烁
+#define MAX_LINE 80       //最大命令长度
+#define MAX_NAME_LEN 100  //最大用户名长度
+#define MAX_PATH_LEN 1000 //最大路径长度
 
-extern char **environ;             
-char *cmd_array[MAX_LINE / 2 + 1];
-int pipe_fd[2];
-int cmd_cnt;
+/*全局变量申明*/
+extern char **environ;             //必须用extern申明，否则会报错
+char *cmd_array[MAX_LINE / 2 + 1]; //保存命令输入，就是原框架的char* args[]
+int pipe_fd[2];                    //和管道有关的数组，作为pipe()的参数
+int cmd_cnt;                       //命令中字符串的个数
 
+/*老师框架里的函数（有改动）*/
 void readcommand();    //读取用户输入
 int is_internal_cmd(); //处理内部命令
 int is_pipe();         //分析管道命令
@@ -321,6 +323,8 @@ void do_redirection()
   }
 }
 
+/*自己定的函数的实现*/
+/*实现顺序和定义顺序相同*/
 void welcome()
 {
   //如下是欢迎信息
@@ -838,6 +842,11 @@ void myhelp_redirect()
 
 void print_manual()
 {
+  //这个函数很“无聊”但是很重要
+  //它为用户打印myshell命令的帮助信息
+  //直接使用help就可以进行查看
+  printf("welcome to the manual of myshell, hope it's useful for you\n");
+  printf("the following are the BUILT-IN commands supported by myshell\n");
   printf("\n");
   printf("NAMES      FORMATS                         DESCRIPTIONS\n");
   printf("bg:        bg [job_spec]                   execute commands in background\n");
